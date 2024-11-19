@@ -234,6 +234,21 @@ public class Challenges {
      */
     public List<Integer> encrypt(String text) {
         // YOUR CODE HERE...
-        return Collections.emptyList();
+        // If the text is empty, return an empty list
+        if (text.length() == 0) {
+            return Collections.emptyList();
+        }
+
+        // Declare a list for store the cyphered text
+        List<Integer> cypheredText = new ArrayList<>(text.length());
+
+        // Because the first value is always the same, the following is added directly
+        cypheredText.add((int) text.charAt(0));
+        // Iterate over the text and store the differences of text[index] - text[index - 1]
+        for (int index = 1; index < text.length(); ++index) {
+            cypheredText.add(text.charAt(index) - text.charAt(index - 1));
+        }
+
+        return cypheredText;
     }
 }
