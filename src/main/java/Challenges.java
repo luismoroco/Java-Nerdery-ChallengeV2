@@ -82,7 +82,31 @@ public class Challenges {
     public String[] circularArray(int index) {
         String[] COUNTRY_NAMES = {"Germany", "Norway", "Island", "Japan", "Israel"};
         // YOUR CODE HERE...
-        return COUNTRY_NAMES;
+        // Given that Integer in signed, we must verify if that is positive
+        if (index < 0) {
+            return COUNTRY_NAMES;
+        }
+
+        // Use the module to avoid out-of-range indexes
+        if (index > COUNTRY_NAMES.length) {
+            index %= COUNTRY_NAMES.length;
+        }
+
+        String[] shiftedCountryNames = new String[COUNTRY_NAMES.length];
+        for (int idx = 0; idx < COUNTRY_NAMES.length; ++idx) {
+            shiftedCountryNames[idx] = COUNTRY_NAMES[(index + idx) % COUNTRY_NAMES.length];
+        }
+
+        /*
+            - - 'n' is COUNTRY_NAMES' length
+            Given an array A of n items where [0][1][2]...[n-1], and other one B of same size
+            We use the modulus for copy them as follows:
+                - Given i, where i in [0, 1, 2, ... n - 1]
+                - We use it for populate B:
+                    - for instance: B[i] = A[(i + index) % n] // in order to iterate over all array indexes
+        */
+
+        return shiftedCountryNames;
     }
     ;
 
