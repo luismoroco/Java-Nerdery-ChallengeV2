@@ -1,4 +1,5 @@
 /* (C)2024 */
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -132,7 +133,25 @@ public class Challenges {
 
     public String ownPower(int number, int lastDigits) {
         // YOUR CODE HERE...
-        return "";
+        BigInteger sum = new BigInteger(BigInteger.ZERO.toByteArray());
+        for (int i = 1; i <= number; ++i) {
+            // We get i^i
+            BigInteger ownPower = new BigInteger(BigInteger.ONE.toByteArray());
+            for (int j = 1; j <= i; ++j) {
+                ownPower = ownPower.multiply(BigInteger.valueOf(i));
+            }
+
+            // We add it to the accumulator
+            sum = sum.add(ownPower);
+        }
+
+        String sumDigits = sum.toString();
+        // Verify if is greater than lastDigits in order to get a substring
+        if (sumDigits.length() >= lastDigits) {
+            return sumDigits.substring(sumDigits.length() - lastDigits);
+        }
+
+        return sumDigits;
     }
     ;
 
