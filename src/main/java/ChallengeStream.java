@@ -1,5 +1,8 @@
 /* (C)2024 */
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import mocks.CallCostObject;
 import mocks.CardWinner;
 import mocks.TotalSummary;
@@ -21,7 +24,35 @@ public class ChallengeStream {
      */
     public CardWinner calculateWinningHand(List<Integer> player1, List<Integer> player2) {
         // YOUR CODE HERE...
-        return new CardWinner();
+        final int HAND_LENGTH = 2;
+        if (player1.size() < HAND_LENGTH || player2.size() < HAND_LENGTH) {
+            return new CardWinner();
+        }
+
+        int firstPlayerHighestNumber = player1.stream()
+          .sorted(Comparator.reverseOrder())
+          .limit(HAND_LENGTH)
+          .map(String::valueOf)
+          .collect(Collectors.collectingAndThen(
+            Collectors.joining(),
+            Integer::parseInt
+          ));
+
+        int secondPlayerHighestNumber = player2.stream()
+          .sorted(Comparator.reverseOrder())
+          .limit(HAND_LENGTH)
+          .map(String::valueOf)
+          .collect(Collectors.collectingAndThen(
+            Collectors.joining(),
+            Integer::parseInt
+          ));
+
+        return
+          switch (Integer.compare(firstPlayerHighestNumber, secondPlayerHighestNumber)) {
+              case 0 -> new CardWinner("TIE", firstPlayerHighestNumber);
+              case 1 -> new CardWinner("P1", firstPlayerHighestNumber);
+              default -> new CardWinner("P2", secondPlayerHighestNumber);
+          };
     }
 
     /**
