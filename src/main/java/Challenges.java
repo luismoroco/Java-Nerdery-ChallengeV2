@@ -202,7 +202,25 @@ public class Challenges {
      */
     public String decrypt(List<Integer> ascivalues) {
         // YOUR CODE HERE...
-        return "";
+        // If the list is empty, return an empty string
+        if (ascivalues.size() == 0) {
+            return "";
+        }
+
+        // Create a local list in order to avoid modifications (references)
+        List<Integer> cypheredText = new ArrayList<>(ascivalues);
+
+        StringBuilder plainText = new StringBuilder();
+        // Because the first value is always the same, the following is added directly
+        plainText.append((char) cypheredText.get(0).intValue());
+        for (int index = 1; index < cypheredText.size(); ++index) {
+            // Set the cypheredText[index] for accumulate values
+            cypheredText.set(index, cypheredText.get(index) + cypheredText.get(index - 1));
+            // Cast the values and add them to out string builder
+            plainText.append((char) cypheredText.get(index).intValue());
+        }
+
+        return plainText.toString();
     }
 
     /**
