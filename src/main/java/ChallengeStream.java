@@ -1,9 +1,12 @@
 /* (C)2024 */
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.RecursiveTask;
 import java.util.stream.Collectors;
 
 import mocks.CallCostObject;
+import mocks.CallSummary;
 import mocks.CardWinner;
 import mocks.TotalSummary;
 
@@ -75,6 +78,86 @@ public class ChallengeStream {
      */
     public TotalSummary calculateCost(List<CallCostObject> costObjectList) {
         // YOUR CODE HERE...
-        return new TotalSummary();
+        abstract class Call {
+          protected int BASE_MINUTES = 0;
+          protected double EXTRA_MINUTE_COST = 0.0;
+          protected double BASE_MINUTE_COST = 0.0;
+
+          public abstract double getCost(CallCostObject call);
+          public double getExtraCost(int duration) {
+            if (EXTRA_MINUTE_COST == 0.0) {
+              return 0.0;
+            }
+
+            return duration > BASE_MINUTES
+              ? (duration - BASE_MINUTES) * EXTRA_MINUTE_COST : 0.0;
+          }
+        }
+
+        class InternationalCall extends Call {
+           {
+            BASE_MINUTES = 3;
+            EXTRA_MINUTE_COST = 3.03;
+            BASE_MINUTE_COST = 7.56;
+          }
+
+          @Override
+          public double getCost(CallCostObject call) {
+            if (call.getDuration() <= BASE_MINUTES) {
+              return BASE_MINUTE_COST * call.getDuration();
+            }
+
+            return (BASE_MINUTE_COST * BASE_MINUTES) + this.getExtraCost(call.getDuration());
+          }
+        }
+
+        class NationalCall extends Call {
+          {
+            BASE_MINUTES = 3;
+            EXTRA_MINUTE_COST = 0.48;
+            BASE_MINUTE_COST = 1.20;
+          }
+
+          @Override
+          public double getCost(CallCostObject call) {
+            if (call.getDuration() < BASE_MINUTES) {
+              return BASE_MINUTE_COST * call.getDuration();
+            }
+
+            return BASE_MINUTE_COST * BASE_MINUTES + this.getExtraCost(call.getDuration());
+          }
+        }
+
+        class LocalCall extends Call {
+          {
+            BASE_MINUTE_COST = 0.2;
+          }
+
+          @Override
+          public double getCost(CallCostObject call) {
+            return BASE_MINUTE_COST * call.getDuration();
+          }
+        }
+
+        Map<String, Call> strategies = Map.of(
+          "International", new InternationalCall(),
+          "National", new NationalCall(),
+          "Local", new LocalCall()
+        );
+
+        List<String> callTypes = List.of("International", "National", "Local");
+        List<CallSummary> summaries = costObjectList.stream()
+          .filter(call -> callTypes.contains(call.getType()))
+          .map(call -> {
+            Call strategy = strategies.get(call.getType());
+            return new CallSummary(call, strategy.getCost(call));
+          })
+          .toList();
+
+        double totalCost = summaries.stream()
+          .mapToDouble(CallSummary::getTotalCost)
+          .sum();
+
+        return new TotalSummary(summaries, summaries.size(), totalCost);
     }
 }
