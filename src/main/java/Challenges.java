@@ -174,7 +174,21 @@ public class Challenges {
 
     public Integer digitSum(int n) {
         // YOUR CODE HERE...
-        return 1;
+        // Declare a accumulator variable
+        BigInteger factorial = new BigInteger(BigInteger.ONE.toByteArray());
+        for (int number = 1; number <= n; ++number) {
+            // perform factorial
+            factorial = factorial.multiply(BigInteger.valueOf(number));
+        }
+
+        int sum = 0;
+        String factorialDigits = factorial.toString();
+        // Parse chars to Integers and sum them
+        for (int index = 0; index < factorialDigits.length(); ++index) {
+            sum += Character.getNumericValue(factorialDigits.charAt(index));
+        }
+
+        return sum;
     }
 
     /**
