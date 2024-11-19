@@ -1,4 +1,5 @@
 /* (C)2024 */
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,7 +22,43 @@ public class Challenges {
 
     public String readableTime(Integer seconds) {
         // YOUR CODE HERE...
-        return "";
+        // Given that Integer in signed, we must verify if that is positive
+        if (seconds < 0) {
+            return "";
+        }
+
+        enum UNIT {
+            SECOND(1, 2),
+            MINUTE(60 * SECOND.value, 2),
+            HOUR(60 * MINUTE.value, 2);
+
+            public final int value;
+            public final int length;
+
+            UNIT(int value, int length) {
+                this.value = value;
+                this.length = length;
+            }
+        }
+
+        // The required format is set up in a descending list by value
+        UNIT[] units = { UNIT.HOUR, UNIT.MINUTE, UNIT.SECOND };
+        List<String> formattedTime = new ArrayList<>(units.length);
+        for (UNIT unit : units) {
+            String value = String.valueOf(seconds / unit.value);
+            int requiredZeros = unit.length - value.length();
+            if (requiredZeros > 0) {
+                value = "0".repeat(requiredZeros) + value;
+            }
+
+            seconds = seconds % unit.value;
+            formattedTime.add(value);
+
+            // The integer division is used to obtain the value in each unit and the
+            // modulus is used to obtain the remainders after each iteration.
+        }
+
+        return String.join(":", formattedTime);
     }
     ;
 
