@@ -8,8 +8,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class ExtraChallenges {
+  final static String FILE_PATH = "weather.json";
+
   public static void main(String[] args) {
-    var FILE = new File("weather.json");
+    var FILE = new File(FILE_PATH);
     var factory = new JsonFactory();
     var mapper = new ObjectMapper(factory);
 
