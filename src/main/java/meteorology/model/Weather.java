@@ -2,6 +2,9 @@ package meteorology.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather {
   public String dev_id;
@@ -25,7 +28,11 @@ public class Weather {
   public Double windspeed;
 
   public String getDate() {
-    return this.time.split("T")[0];
+    return this.getTimeAsZonedDateTime().getDayOfWeek() + " " + this.time.split("T")[0];
+  }
+
+  public ZonedDateTime getTimeAsZonedDateTime() {
+    return ZonedDateTime.parse(this.time, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
   }
 
   public boolean verifyFields() throws IllegalAccessException {
