@@ -28,32 +28,16 @@ public class Challenges {
             return "";
         }
 
-        enum UNIT {
-            SECOND(1, 2),
-            MINUTE(60 * SECOND.value, 2),
-            HOUR(60 * MINUTE.value, 2);
+        final int SECOND = 1;
+        final int MINUTE = 60 * SECOND;
+        final int HOUR = 60 * MINUTE;
 
-            public final int value;
-            public final int length;
-
-            UNIT(int value, int length) {
-                this.value = value;
-                this.length = length;
-            }
-        }
-
-        // The required format is set up in a descending list by value
-        UNIT[] units = { UNIT.HOUR, UNIT.MINUTE, UNIT.SECOND };
-        List<String> formattedTime = new ArrayList<>(units.length);
-        for (UNIT unit : units) {
-            String value = String.valueOf(seconds / unit.value);
-            int requiredZeros = unit.length - value.length();
-            if (requiredZeros > 0) {
-                value = "0".repeat(requiredZeros) + value;
-            }
-
-            seconds = seconds % unit.value;
+        List<String> formattedTime = new ArrayList<>(3);
+        for (int unit : List.of(HOUR, MINUTE, SECOND)) {
+            String value = String.format("%0" + 2 + "d", seconds / unit);
             formattedTime.add(value);
+
+            seconds = seconds % unit;
 
             // The integer division is used to obtain the value in each unit and the
             // modulus is used to obtain the remainders after each iteration.
@@ -133,10 +117,10 @@ public class Challenges {
 
     public String ownPower(int number, int lastDigits) {
         // YOUR CODE HERE...
-        BigInteger sum = new BigInteger(BigInteger.ZERO.toByteArray());
+        BigInteger sum = BigInteger.ZERO;
         for (int i = 1; i <= number; ++i) {
             // We get i^i
-            BigInteger ownPower = new BigInteger(BigInteger.ONE.toByteArray());
+            BigInteger ownPower = BigInteger.ONE;
             for (int j = 1; j <= i; ++j) {
                 ownPower = ownPower.multiply(BigInteger.valueOf(i));
             }
@@ -175,7 +159,7 @@ public class Challenges {
     public Integer digitSum(int n) {
         // YOUR CODE HERE...
         // Declare a accumulator variable
-        BigInteger factorial = new BigInteger(BigInteger.ONE.toByteArray());
+        BigInteger factorial = BigInteger.ONE;
         for (int number = 1; number <= n; ++number) {
             // perform factorial
             factorial = factorial.multiply(BigInteger.valueOf(number));

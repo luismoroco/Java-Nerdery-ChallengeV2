@@ -30,6 +30,6 @@ public class Variable {
   }
 
   public void show() {
-    System.out.printf(" - %s: [average=%f][minimum=%f][maximum=%f]\n%n", this.name, this.average / this.count, this.minimum, this.maximum);
+    System.out.printf(" - %s: [average=%f][minimum=%f][maximum=%f]\n", this.name, this.average / this.count, this.minimum, this.maximum);
   }
 }

@@ -2,12 +2,11 @@ package meteorology.report.policy;
 
 import meteorology.model.Report;
 import meteorology.model.Weather;
-import meteorology.report.MeteorologyReport;
 
-public class AggregatedMeteorologyReport extends MeteorologyReport {
+public class AggregatedMeteorologyReport {
   protected Report report = new Report();
+  protected final static Class<?> weatherClass = Weather.class;
 
-  @Override
   public void process(Weather weather) throws NoSuchFieldException, IllegalAccessException {
     for (var key : this.report.map.keySet()) {
       var field = weatherClass.getDeclaredField(key);
@@ -18,7 +17,6 @@ public class AggregatedMeteorologyReport extends MeteorologyReport {
     }
   }
 
-  @Override
   public void show() {
     this.report.show();
   }

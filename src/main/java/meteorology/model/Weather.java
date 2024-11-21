@@ -12,14 +12,14 @@ public class Weather {
   public String year;
   public String month;
   public String dayofweek;
-  public Double airtemp; // I
+  public Double airtemp;
   public Double atmosphericpressure;
   public Double gustspeed;
-  public Double precipitation; // I
-  public Double relativehumidity; // I
-  public Double solar; // I
-  public Double strikedistance; // I
-  public Double strikes; // I
+  public Double precipitation;
+  public Double relativehumidity;
+  public Double solar;
+  public Double strikedistance;
+  public Double strikes;
   public Double vapourpressure;
   public Double winddirection;
   public Double windspeed;
