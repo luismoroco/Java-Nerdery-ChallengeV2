@@ -2,7 +2,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import meteorology.model.Weather;
-import meteorology.report.policy.AggregatedMeteorologyReport;
+import meteorology.MeteorologyReport;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class ExtraChallenges {
     var factory = new JsonFactory();
     var mapper = new ObjectMapper(factory);
 
-    var meteorologyReport = new AggregatedMeteorologyReport();
+    var meteorologyReport = new MeteorologyReport();
 
     try {
       var parser = factory.createParser(FILE);

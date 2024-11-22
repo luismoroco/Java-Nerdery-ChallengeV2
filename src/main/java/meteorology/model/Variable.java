@@ -29,6 +29,6 @@ public class Variable {
   }
 
   public void show() {
-    System.out.printf(" - %s: [average=%f][minimum=%f][maximum=%f]\n", this.name, this.getAverage(), this.minimum, this.maximum);
+    System.out.printf(" - %s: [average=%.2f][minimum=%.2f][maximum=%.2f]\n", this.name, this.getAverage(), this.minimum, this.maximum);
   }
 }

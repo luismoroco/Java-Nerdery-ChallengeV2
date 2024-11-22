@@ -3,7 +3,9 @@ package meteorology.model;
 import java.util.Map;
 
 public class Report {
-  public Map<String, Variable> map = Map.of(
+  protected final static Class<?> weatherClass = Weather.class;
+
+  public Map<String, Variable> vars = Map.of(
     "gustspeed", new Variable("Gust speed"),
     "precipitation", new Variable("Precipitation"),
     "relativehumidity", new Variable("Relative humidity"),
@@ -15,8 +17,18 @@ public class Report {
     "windspeed", new Variable("Wind speed")
   );
 
+  public void process(Weather weather) throws NoSuchFieldException, IllegalAccessException {
+    for (var key : this.vars.keySet()) {
+      var field = weatherClass.getDeclaredField(key);
+      field.setAccessible(true);
+
+      var information = this.vars.get(key);
+      information.update((Double) field.get(weather));
+    }
+  }
+
   public void show() {
-    for (var report : this.map.entrySet()) {
+    for (var report : this.vars.entrySet()) {
       report.getValue().show();
     }
   }
