@@ -30,19 +30,13 @@ public class ChallengeStream {
             return new CardWinner();
         }
 
-        int firstPlayerHighestNumber = this.getHighestHandNumber(player1);
-        int secondPlayerHighestNumber = this.getHighestHandNumber(player2);
+        int player1Hand = this.getHighestHandNumber(player1);
+        int player2Hand = this.getHighestHandNumber(player2);
 
-        CardWinner winner = new CardWinner("TIE", firstPlayerHighestNumber);
-        if (firstPlayerHighestNumber > secondPlayerHighestNumber) {
-          winner.setWinner("P1");
-        }
-        if (secondPlayerHighestNumber > firstPlayerHighestNumber) {
-          winner.setWinner("P2");
-          winner.setWinTotal(secondPlayerHighestNumber);
-        }
-
-        return winner;
+        return new CardWinner(
+          player1Hand > player2Hand ? "P1" : player2Hand > player1Hand ? "P2" : "TIE",
+          Math.max(player1Hand, player2Hand)
+        );
     }
 
     private int getHighestHandNumber(List<Integer> cards) {
@@ -72,7 +66,7 @@ public class ChallengeStream {
      */
     public TotalSummary calculateCost(List<CallCostObject> costObjectList) {
         // YOUR CODE HERE...
-        // List stores [baseMinutes, extraMinutePrice, baseMinutePrice] respectively
+        // List stores [baseMinutes, baseMinutePrice, extraMinutePrice] respectively
         Map<String, List<Double>> basePrices = Map.of(
           "International", List.of(3.0, 7.56, 3.03),
           "National", List.of(3.0, 1.20, 0.48),

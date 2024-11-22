@@ -2,11 +2,15 @@ package meteorology.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.lang.reflect.Field;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather {
+  private final static Class<?> weatherClass = Weather.class;
+  private final static Field[] weatherFields = weatherClass.getDeclaredFields();
+
   public String dev_id;
   public String name;
   public Location location;
@@ -36,10 +40,7 @@ public class Weather {
   }
 
   public boolean verifyFields() throws IllegalAccessException {
-    var weather = Weather.class;
-    var fields = weather.getDeclaredFields();
-
-    for (var field : fields) {
+    for (var field : weatherFields) {
       field.setAccessible(true);
       if (field.get(this) == null) {
         return false;
