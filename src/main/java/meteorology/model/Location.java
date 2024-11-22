@@ -6,4 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Location {
   public Double lon;
   public Double lat;
+
+  public Location() {}
 }

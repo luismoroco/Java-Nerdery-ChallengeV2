@@ -17,6 +17,8 @@ public class Report {
     "windspeed", new Variable("Wind speed")
   );
 
+  public Report() {}
+
   public void process(Weather weather) throws NoSuchFieldException, IllegalAccessException {
     for (var key : this.vars.keySet()) {
       var field = weatherClass.getDeclaredField(key);

@@ -11,6 +11,8 @@ public class MeteorologyReport {
   protected Map<String, Report> dailyReports = new HashMap<>();
   protected Report overview = new Report();
 
+  public MeteorologyReport() {}
+
   public void process(Weather weather) throws NoSuchFieldException, IllegalAccessException {
     this.overview.process(weather);
 

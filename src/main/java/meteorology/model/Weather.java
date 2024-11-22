@@ -32,6 +32,8 @@ public class Weather {
   public Double winddirection;
   public Double windspeed;
 
+  public Weather() {}
+
   public String getDate() {
     return this.getTimeAsZonedDateTime().getDayOfWeek() + " " + this.time.split("T")[0];
   }
