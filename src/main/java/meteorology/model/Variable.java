@@ -24,7 +24,11 @@ public class Variable {
     ++this.count;
   }
 
+  public Double getAverage() {
+    return this.count == 0 ? 0.0 : this.sum / this.count;
+  }
+
   public void show() {
-    System.out.printf(" - %s: [average=%f][minimum=%f][maximum=%f]\n", this.name, this.sum / this.count, this.minimum, this.maximum);
+    System.out.printf(" - %s: [average=%f][minimum=%f][maximum=%f]\n", this.name, this.getAverage(), this.minimum, this.maximum);
   }
 }
