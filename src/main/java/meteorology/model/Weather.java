@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.lang.reflect.Field;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather {
@@ -42,7 +43,7 @@ public class Weather {
   public boolean verifyFields() throws IllegalAccessException {
     for (var field : weatherFields) {
       field.setAccessible(true);
-      if (field.get(this) == null) {
+      if (Objects.isNull(field.get(this))) {
         return false;
       }
     }

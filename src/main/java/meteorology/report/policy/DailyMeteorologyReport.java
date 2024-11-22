@@ -4,13 +4,14 @@ import meteorology.model.Weather;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class DailyMeteorologyReport {
   protected Map<String, AggregatedMeteorologyReport> report = new HashMap<>();
 
   public void process(Weather weather) throws NoSuchFieldException, IllegalAccessException {
     var meteorologyReport = this.report.get(weather.getDate());
-    if (meteorologyReport == null) {
+    if (Objects.isNull(meteorologyReport)) {
       meteorologyReport = new AggregatedMeteorologyReport();
       meteorologyReport.process(weather);
 
