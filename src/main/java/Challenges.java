@@ -21,18 +21,18 @@ public class Challenges {
     Invoking "readableTime(3690)" should return "01:01:30" (HH:MM:SS)
     ***** */
 
+    final static int SECOND = 1;
+    final static int MINUTE = 60 * SECOND;
+    final static int HOUR = 60 * MINUTE;
+
     public String readableTime(Integer seconds) {
         // YOUR CODE HERE...
         // Given that Integer in signed, we must verify if that is positive
         if (seconds < 0) {
-            return "";
+            throw new RuntimeException("Seconds must be greater or equal than zero");
         }
 
-        final int SECOND = 1;
-        final int MINUTE = 60 * SECOND;
-        final int HOUR = 60 * MINUTE;
-
-        List<String> formattedTime = new ArrayList<>(3);
+        var formattedTime = new ArrayList<String>(3);
         for (int unit : List.of(HOUR, MINUTE, SECOND)) {
             String value = String.format("%0" + 2 + "d", seconds / unit);
             formattedTime.add(value);
@@ -69,7 +69,7 @@ public class Challenges {
         // YOUR CODE HERE...
         // Given that Integer in signed, we must verify if that is positive
         if (index < 0) {
-            return COUNTRY_NAMES;
+            throw new RuntimeException("index must be greater or equal than zero");
         }
 
         // Use the module to avoid out-of-range indexes
@@ -77,7 +77,7 @@ public class Challenges {
             index %= COUNTRY_NAMES.length;
         }
 
-        String[] shiftedCountryNames = new String[COUNTRY_NAMES.length];
+        var shiftedCountryNames = new String[COUNTRY_NAMES.length];
         for (int idx = 0; idx < COUNTRY_NAMES.length; ++idx) {
             shiftedCountryNames[idx] = COUNTRY_NAMES[(index + idx) % COUNTRY_NAMES.length];
         }
@@ -117,10 +117,10 @@ public class Challenges {
 
     public String ownPower(int number, int lastDigits) {
         // YOUR CODE HERE...
-        BigInteger sum = BigInteger.ZERO;
+        var sum = BigInteger.ZERO;
         for (int i = 1; i <= number; ++i) {
             // We get i^i
-            BigInteger ownPower = BigInteger.ONE;
+            var ownPower = BigInteger.ONE;
             for (int j = 1; j <= i; ++j) {
                 ownPower = ownPower.multiply(BigInteger.valueOf(i));
             }
@@ -129,7 +129,7 @@ public class Challenges {
             sum = sum.add(ownPower);
         }
 
-        String sumDigits = sum.toString();
+        var sumDigits = sum.toString();
         // Verify if is greater than lastDigits in order to get a substring
         if (sumDigits.length() >= lastDigits) {
             return sumDigits.substring(sumDigits.length() - lastDigits);
@@ -159,14 +159,14 @@ public class Challenges {
     public Integer digitSum(int n) {
         // YOUR CODE HERE...
         // Declare a accumulator variable
-        BigInteger factorial = BigInteger.ONE;
+        var factorial = BigInteger.ONE;
         for (int number = 1; number <= n; ++number) {
             // perform factorial
             factorial = factorial.multiply(BigInteger.valueOf(number));
         }
 
-        int sum = 0;
-        String factorialDigits = factorial.toString();
+        var sum = 0;
+        var factorialDigits = factorial.toString();
         // Parse chars to Integers and sum them
         for (int index = 0; index < factorialDigits.length(); ++index) {
             sum += Character.getNumericValue(factorialDigits.charAt(index));
@@ -192,9 +192,9 @@ public class Challenges {
         }
 
         // Create a local list in order to avoid modifications (references)
-        List<Integer> cypheredText = new ArrayList<>(ascivalues);
+        var cypheredText = new ArrayList<>(ascivalues);
 
-        StringBuilder plainText = new StringBuilder();
+        var plainText = new StringBuilder();
         // Because the first value is always the same, the following is added directly
         plainText.append((char) cypheredText.get(0).intValue());
         for (int index = 1; index < cypheredText.size(); ++index) {
@@ -224,7 +224,7 @@ public class Challenges {
         }
 
         // Declare a list for store the cyphered text
-        List<Integer> cypheredText = new ArrayList<>(text.length());
+        var cypheredText = new ArrayList<Integer>(text.length());
 
         // Because the first value is always the same, the following is added directly
         cypheredText.add((int) text.charAt(0));

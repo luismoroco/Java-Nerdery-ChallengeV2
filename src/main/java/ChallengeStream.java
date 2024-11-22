@@ -23,15 +23,17 @@ public class ChallengeStream {
      *
      * @param player1  hand, player2 hand
      */
+
+    final static int WINNER_HAND_LENGTH = 2;
+
     public CardWinner calculateWinningHand(List<Integer> player1, List<Integer> player2) {
         // YOUR CODE HERE...
-        final int WINNER_HAND_LENGTH = 2;
         if (player1.size() < WINNER_HAND_LENGTH || player2.size() < WINNER_HAND_LENGTH) {
             return new CardWinner();
         }
 
-        int player1Hand = this.getHighestHandNumber(player1);
-        int player2Hand = this.getHighestHandNumber(player2);
+        var player1Hand = this.getHighestHandNumber(player1);
+        var player2Hand = this.getHighestHandNumber(player2);
 
         return new CardWinner(
           player1Hand > player2Hand ? "P1" : player2Hand > player1Hand ? "P2" : "TIE",
@@ -42,7 +44,7 @@ public class ChallengeStream {
     private int getHighestHandNumber(List<Integer> cards) {
       return cards.stream()
         .sorted(Comparator.reverseOrder())
-        .limit(2)
+        .limit(WINNER_HAND_LENGTH)
         .reduce(0, (a, b) -> a * 10 + b);
     }
 
@@ -67,18 +69,17 @@ public class ChallengeStream {
     public TotalSummary calculateCost(List<CallCostObject> costObjectList) {
         // YOUR CODE HERE...
         // List stores [baseMinutes, baseMinutePrice, extraMinutePrice] respectively
-        Map<String, List<Double>> basePrices = Map.of(
+        var basePrices = Map.of(
           "International", List.of(3.0, 7.56, 3.03),
           "National", List.of(3.0, 1.20, 0.48),
           "Local", List.of(0.0, 0.0, 0.2)
         );
 
-        List<String> callTypes = List.of("International", "National", "Local");
-        List<CallSummary> summaries = costObjectList.stream()
-          .filter(call -> callTypes.contains(call.getType()))
+        var summaries = costObjectList.stream()
+          .filter(call -> List.of("International", "National", "Local").contains(call.getType()))
           .map(call -> {
-            List<Double> config = basePrices.get(call.getType());
-            double price = call.getDuration() <= config.get(0)
+            var config = basePrices.get(call.getType());
+            var price = call.getDuration() <= config.get(0)
               ? call.getDuration() * config.get(1)
               : config.get(1) * config.get(0)
               + (call.getDuration() - config.get(0)) * config.get(2);
@@ -87,7 +88,7 @@ public class ChallengeStream {
           })
           .toList();
 
-        double totalCost = summaries.stream()
+        var totalCost = summaries.stream()
           .mapToDouble(CallSummary::getTotalCost)
           .sum();
 
